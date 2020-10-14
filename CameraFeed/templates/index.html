@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>360&deg; Image</title>
+    <meta name="description" content="360&deg; Image - A-Frame">
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    <script>
+        AFRAME.registerComponent('updater', {
+	    schema: {
+		currTime: {default: 0}
+	    },
+
+            init: function() {
+                //console.log("TESTING")
+		this.data.currTime = 0
+
+            },
+
+            tick: function(time, timeDelta) {
+                //console.log(this.data.currTime)
+						
+		if(time - this.data.currTime > 1000)
+		{
+			console.log(this.data.currTime)
+
+		        //var skyEl = this.el.sceneEl.querySelector('#Skybox')
+			//skyEl.setAttribute("material", "src", "{{ url_for('video_feed') }}")
+
+			this.el.setAttribute("material", "src", "{{ url_for('video_feed') }}")
+			this.data.currTime = time
+		}
+
+		//this.setAttribute('src', "{{ url_for('video_feed') }}");
+
+		//this.querySelector('a-sky').setAttribute('src', skyEL)
+                //skyEl.setAttribute('src', '#Livestream')
+            }
+        });
+    </script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img id="Livestream" crossorigin="anonymous" src="{{ url_for('video_feed') }}">
+      </a-assets>
+
+      <a-sky id="Skybox" src="#Livestream" updater ></a-sky>
+
+      <!--
+      <a-text font="kelsonsans" value="Puy de Sancy, France" width="6" position="-2.5 0.25 -1.5"
+              rotation="0 15 0"></a-text>
+      -->
+
+    </a-scene>
+  </body>
+</html>
